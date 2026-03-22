@@ -7,6 +7,8 @@ import { fetchRecentActivities, StravaActivity } from '@/services/strava';
 import { calculateFitnessFatigue, DailyMetrics, estimateVO2Max, generateInsights } from '@/lib/metrics';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Activity, HeartPulse, TrendingUp, AlertTriangle } from 'lucide-react';
+import { TrainingCalendar } from '@/components/TrainingCalendar';
+import { ActivityDetailsModal } from '@/components/ActivityDetailsModal';
 
 export default function Dashboard() {
   const { isAuthenticated, athlete } = useAuthStore();
@@ -18,6 +20,7 @@ export default function Dashboard() {
   const [vo2max, setVo2Max] = useState<number | null>(null);
   const [insights, setInsights] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [selectedActivity, setSelectedActivity] = useState<StravaActivity | null>(null);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -120,6 +123,11 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Training Heatmap */}
+      <TrainingCalendar activities={activities} onSelectActivity={setSelectedActivity} />
+
+      <ActivityDetailsModal activity={selectedActivity} onClose={() => setSelectedActivity(null)} />
 
       {/* Main Chart */}
       <div className="rounded-xl border border-border bg-card p-4 md:p-6 shadow-sm">

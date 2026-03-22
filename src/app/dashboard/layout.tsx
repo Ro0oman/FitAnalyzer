@@ -28,10 +28,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <LayoutDashboard className="w-5 h-5 text-primary" />
             Overview
           </Link>
-          <button className="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-secondary/50 text-muted-foreground transition-colors">
+          <Link href="/dashboard/settings" className="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-secondary/50 text-muted-foreground transition-colors">
             <Settings className="w-5 h-5" />
             Settings
-          </button>
+          </Link>
         </nav>
         
         <div className="p-4 border-t border-border">
