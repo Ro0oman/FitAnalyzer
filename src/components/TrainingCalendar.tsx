@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { StravaActivity } from '@/services/strava';
 import { startOfWeek, subWeeks, format, differenceInWeeks } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Flame, ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react';
+import { Flame, ChevronLeft, ChevronRight, CalendarDays, Footprints, Dumbbell } from 'lucide-react';
 
 interface TrainingCalendarProps {
   activities: StravaActivity[];
@@ -12,7 +12,7 @@ interface TrainingCalendarProps {
 }
 
 export function TrainingCalendar({ activities, onSelectActivity }: TrainingCalendarProps) {
-  const [weeksToShow, setWeeksToShow] = useState<number>(12); // Default 12 weeks
+  const [weeksToShow, setWeeksToShow] = useState<number>(52); // Default 1 Year
   const [pageOffset, setPageOffset] = useState<number>(0); // 0 = current, 1 = previous block, etc.
 
   const today = new Date();
@@ -180,15 +180,20 @@ export function TrainingCalendar({ activities, onSelectActivity }: TrainingCalen
                              animate={{ opacity: 1, scale: 1 }}
                              transition={{ delay: (weekIdx * 0.01) + (dayIdx * 0.005), duration: 0.3 }}
                              onClick={() => day.activities.length > 0 && onSelectActivity(day.activities[0])}
-                             className={`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-sm sm:rounded-md cursor-pointer transition-all duration-200 relative group/cell
+                             className={`w-4 h-4 md:w-5 md:h-5 rounded-sm sm:rounded-md cursor-pointer transition-all duration-200 relative group/cell flex items-center justify-center
                                 ${getLevelClass(day.level)} ${day.activities.length === 0 ? 'hover:bg-secondary/80' : 'hover:ring-2 hover:ring-white/50 hover:scale-110 z-10'}
                              `}
                           >
                              {day.activities.length > 0 && (
-                                <div className="absolute top-[120%] left-1/2 -translate-x-1/2 mt-1 px-3 py-1.5 bg-black/90 backdrop-blur-md text-white text-xs rounded-md shadow-xl border border-border/50 opacity-0 group-hover/cell:opacity-100 pointer-events-none transition-opacity z-[60] whitespace-nowrap hidden sm:block">
-                                    <p className="font-bold text-primary">{format(day.date, 'MMM do, yyyy')}</p>
-                                    <p>{day.activities.length} activity(s)</p>
-                                </div>
+                                <>
+                                  <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
+                                      {day.activities[0].type === 'Run' ? <Footprints className="w-2.5 h-2.5 md:w-3 md:h-3" /> : <Dumbbell className="w-2.5 h-2.5 md:w-3 md:h-3" />}
+                                  </div>
+                                  <div className="absolute top-[120%] left-1/2 -translate-x-1/2 mt-1 px-3 py-1.5 bg-black/90 backdrop-blur-md text-white text-xs rounded-md shadow-xl border border-border/50 opacity-0 group-hover/cell:opacity-100 pointer-events-none transition-opacity z-[60] whitespace-nowrap hidden sm:block">
+                                      <p className="font-bold text-primary">{format(day.date, 'MMM do, yyyy')}</p>
+                                      <p>{day.activities.length} activity(s) • {day.activities[0].type}</p>
+                                  </div>
+                                </>
                              )}
                           </motion.div>
                       ))}

@@ -13,6 +13,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsToolti
 import { Activity, HeartPulse, TrendingUp, AlertTriangle, Target, CheckCircle2, AlertCircle, Info, Watch } from 'lucide-react';
 import { TrainingCalendar } from '@/components/TrainingCalendar';
 import { ActivityDetailsModal } from '@/components/ActivityDetailsModal';
+import { TrainingStatsTable } from '@/components/TrainingStatsTable';
 
 export default function Dashboard() {
   const { isAuthenticated, athlete } = useAuthStore();
@@ -282,8 +283,10 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Calendar and Modals */}
+      {/* Calendar, Stats Table and Modals */}
       <TrainingCalendar activities={activities} onSelectActivity={setSelectedActivity} />
+      <TrainingStatsTable activities={activities} />
+      
       <ActivityDetailsModal activity={selectedActivity} onClose={() => setSelectedActivity(null)} />
     </div>
   );
