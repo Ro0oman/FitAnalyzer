@@ -147,7 +147,7 @@ export function TrainingCalendar({ activities, onSelectActivity }: TrainingCalen
         </div>
       </div>
 
-      <div className="flex justify-center md:justify-start overflow-x-auto pb-6 pt-2 custom-scrollbar relative z-10 w-full snap-x">
+      <div className="overflow-x-auto pb-6 pt-2 custom-scrollbar relative z-10 w-full snap-x">
         <AnimatePresence mode="wait">
         <motion.div 
            key={`${weeksToShow}-${pageOffset}`}
@@ -155,7 +155,7 @@ export function TrainingCalendar({ activities, onSelectActivity }: TrainingCalen
            animate={{ opacity: 1, x: 0 }}
            exit={{ opacity: 0, x: -20 }}
            transition={{ duration: 0.3 }}
-           className="flex gap-1.5 min-w-max"
+           className="flex gap-1.5 min-w-max mx-auto px-4 lg:px-0"
         >
             {Array.from({ length: weeksToShow }).map((_, weekIdx) => {
                const weekDays = calendarData.slice(weekIdx * 7, (weekIdx + 1) * 7);
