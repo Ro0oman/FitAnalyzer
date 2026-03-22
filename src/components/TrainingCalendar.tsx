@@ -12,7 +12,7 @@ interface TrainingCalendarProps {
 }
 
 export function TrainingCalendar({ activities, onSelectActivity }: TrainingCalendarProps) {
-  const [weeksToShow, setWeeksToShow] = useState<number>(52); // Default 1 Year
+  const weeksToShow = 52; // Fixed 1 Year
   const [pageOffset, setPageOffset] = useState<number>(0); // 0 = current, 1 = previous block, etc.
 
   const today = new Date();
@@ -107,15 +107,9 @@ export function TrainingCalendar({ activities, onSelectActivity }: TrainingCalen
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 relative z-10 border-b border-border/50 pb-6 mb-6">
         <div>
             <h3 className="text-xl font-bold flex items-center gap-2">
-                <Flame className="w-5 h-5 text-primary" /> Training Heatmap
+                <Flame className="w-5 h-5 text-primary" /> Training Heatmap (1 Year)
             </h3>
-            <p className="text-sm text-muted-foreground mt-1 text-balance">Review your consistency and training load day by day.</p>
-            
-            <div className="mt-4 flex items-center gap-2 bg-secondary/50 p-1 rounded-lg w-max">
-                 <button onClick={() => {setWeeksToShow(12); setPageOffset(0);}} className={`px-3 py-1 text-xs font-semibold rounded-md transition-all ${weeksToShow===12 ? 'bg-primary text-white shadow-md' : 'text-muted-foreground'}`}>12 Weeks</button>
-                 <button onClick={() => {setWeeksToShow(24); setPageOffset(0);}} className={`px-3 py-1 text-xs font-semibold rounded-md transition-all ${weeksToShow===24 ? 'bg-primary text-white shadow-md' : 'text-muted-foreground'}`}>6 Months</button>
-                 <button onClick={() => {setWeeksToShow(52); setPageOffset(0);}} className={`px-3 py-1 text-xs font-semibold rounded-md transition-all ${weeksToShow===52 ? 'bg-primary text-white shadow-md' : 'text-muted-foreground'}`}>1 Year</button>
-            </div>
+            <p className="text-sm text-muted-foreground mt-1 text-balance">Review your consistency and training load day by day without scrolling.</p>
         </div>
         
         <div className="flex gap-4 items-center">
@@ -147,15 +141,15 @@ export function TrainingCalendar({ activities, onSelectActivity }: TrainingCalen
         </div>
       </div>
 
-      <div className="overflow-x-auto pb-6 pt-2 custom-scrollbar relative z-10 w-full snap-x">
+      <div className="pb-6 pt-2 w-full flex justify-center z-10 relative">
         <AnimatePresence mode="wait">
         <motion.div 
-           key={`${weeksToShow}-${pageOffset}`}
+           key={`heat-${pageOffset}`}
            initial={{ opacity: 0, x: 20 }}
            animate={{ opacity: 1, x: 0 }}
            exit={{ opacity: 0, x: -20 }}
            transition={{ duration: 0.3 }}
-           className="flex gap-1.5 min-w-max mx-auto px-4 lg:px-0"
+           className="flex w-full justify-between items-start"
         >
             {Array.from({ length: weeksToShow }).map((_, weekIdx) => {
                const weekDays = calendarData.slice(weekIdx * 7, (weekIdx + 1) * 7);
@@ -180,14 +174,14 @@ export function TrainingCalendar({ activities, onSelectActivity }: TrainingCalen
                              animate={{ opacity: 1, scale: 1 }}
                              transition={{ delay: (weekIdx * 0.01) + (dayIdx * 0.005), duration: 0.3 }}
                              onClick={() => day.activities.length > 0 && onSelectActivity(day.activities[0])}
-                             className={`w-4 h-4 md:w-5 md:h-5 rounded-sm sm:rounded-md cursor-pointer transition-all duration-200 relative group/cell flex items-center justify-center
-                                ${getLevelClass(day.level)} ${day.activities.length === 0 ? 'hover:bg-secondary/80' : 'hover:ring-2 hover:ring-white/50 hover:scale-110 z-10'}
+                             className={`w-[1vw] max-w-[14px] aspect-square rounded-[2px] cursor-pointer transition-all duration-200 relative group/cell flex items-center justify-center
+                                ${getLevelClass(day.level)} ${day.activities.length === 0 ? 'hover:bg-secondary/80' : 'hover:ring-1 hover:ring-white/50 hover:scale-[1.5] z-10'}
                              `}
                           >
                              {day.activities.length > 0 && (
                                 <>
                                   <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
-                                      {day.activities[0].type === 'Run' ? <Footprints className="w-2.5 h-2.5 md:w-3 md:h-3" /> : <Dumbbell className="w-2.5 h-2.5 md:w-3 md:h-3" />}
+                                      {day.activities[0].type === 'Run' ? <Footprints className="w-[8px] h-[8px]" /> : <Dumbbell className="w-[8px] h-[8px]" />}
                                   </div>
                                   <div className="absolute top-[120%] left-1/2 -translate-x-1/2 mt-1 px-3 py-1.5 bg-black/90 backdrop-blur-md text-white text-xs rounded-md shadow-xl border border-border/50 opacity-0 group-hover/cell:opacity-100 pointer-events-none transition-opacity z-[60] whitespace-nowrap hidden sm:block">
                                       <p className="font-bold text-primary">{format(day.date, 'MMM do, yyyy')}</p>

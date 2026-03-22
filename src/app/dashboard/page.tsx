@@ -14,6 +14,7 @@ import { Activity, HeartPulse, TrendingUp, AlertTriangle, Target, CheckCircle2, 
 import { TrainingCalendar } from '@/components/TrainingCalendar';
 import { ActivityDetailsModal } from '@/components/ActivityDetailsModal';
 import { TrainingStatsTable } from '@/components/TrainingStatsTable';
+import { WeeklyComparisonChart } from '@/components/WeeklyComparisonChart';
 
 export default function Dashboard() {
   const { isAuthenticated, athlete } = useAuthStore();
@@ -283,8 +284,9 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Calendar, Stats Table and Modals */}
+      {/* Calendar, Bar Charts, Stats Table and Modals */}
       <TrainingCalendar activities={activities} onSelectActivity={setSelectedActivity} />
+      <WeeklyComparisonChart activities={activities} />
       <TrainingStatsTable activities={activities} />
       
       <ActivityDetailsModal activity={selectedActivity} onClose={() => setSelectedActivity(null)} />

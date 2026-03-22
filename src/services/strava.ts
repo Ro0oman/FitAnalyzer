@@ -19,7 +19,7 @@ export interface StravaActivity {
   suffer_score?: number;
 }
 
-// Fetch activities from the last 90 days
+// Fetch activities from the last 365 days
 export async function fetchRecentActivities(): Promise<StravaActivity[]> {
   const { accessToken } = useAuthStore.getState();
   
@@ -27,10 +27,10 @@ export async function fetchRecentActivities(): Promise<StravaActivity[]> {
     throw new Error('Not authenticated');
   }
 
-  // 90 days ago in seconds format
-  const ninetyDaysAgo = Math.floor((Date.now() - 90 * 24 * 60 * 60 * 1000) / 1000);
+  // 365 days ago in seconds format
+  const yearAgo = Math.floor((Date.now() - 365 * 24 * 60 * 60 * 1000) / 1000);
   
-  const response = await fetch(`${BASE_URL}/athlete/activities?after=${ninetyDaysAgo}&per_page=100`, {
+  const response = await fetch(`${BASE_URL}/athlete/activities?after=${yearAgo}&per_page=200`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
