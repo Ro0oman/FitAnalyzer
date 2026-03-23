@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const clearAuth = useAuthStore((state) => state.clearAuth);
+  const isDemo = useAuthStore((state) => state.isDemo);
   const router = useRouter();
 
   const handleLogout = () => {
@@ -20,7 +21,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <aside className="w-64 border-r border-border bg-card flex flex-col hidden md:flex">
         <div className="h-16 flex items-center px-6 border-b border-border">
           <Activity className="w-8 h-8 text-primary mr-2" />
-          <span className="font-bold text-lg">FitAnalyzer</span>
+          <div className="flex flex-col">
+            <span className="font-bold text-lg leading-none">FitAnalyzer</span>
+            {isDemo && <span className="text-[10px] text-primary font-bold uppercase tracking-tighter">Demo Athlete</span>}
+          </div>
         </div>
         
         <nav className="flex-1 px-4 py-6 space-y-2">

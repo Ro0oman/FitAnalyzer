@@ -9,11 +9,15 @@ import { DemoStats } from "@/components/DemoStats";
 import { ActivityCards } from "@/components/ActivityCards";
 import { ActivityDetail } from "@/components/ActivityDetail";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X, UserCheck } from "lucide-react";
+import { useAuthStore } from "@/store/authStore";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [authUrl, setAuthUrl] = useState<string>('');
   const [selectedActivity, setSelectedActivity] = useState<any>(null);
+  const setDemoAuth = useAuthStore(state => state.setDemoAuth);
+  const router = useRouter();
 
   useEffect(() => {
      const STRAVA_CLIENT_ID = process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID;
@@ -21,6 +25,11 @@ export default function Home() {
      const SCOPES = "read,activity:read_all";
      setAuthUrl(`https://www.strava.com/oauth/authorize?client_id=${STRAVA_CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&approval_prompt=force&scope=${SCOPES}`);
   }, []);
+
+  const handleDemoMode = () => {
+    setDemoAuth();
+    router.push('/dashboard');
+  };
 
   return (
     <main className="flex-1 flex flex-col min-h-screen">
@@ -65,7 +74,7 @@ export default function Home() {
         
         <div className="max-w-4xl w-full space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
           <div className="flex justify-center mb-4">
-            <div className="p-3 rounded-2xl bg-primary/10 border border-primary/20 shadow-lg shadow-primary/5 backdrop-blur-sm relative">
+            <div className="p-3 rounded-2xl bg-primary/10 border border-primary/20 shadow-lg shadow-primary/5 backdrop-blur-sm relative transition-transform hover:scale-110 duration-500">
               <Activity className="w-10 h-10 text-primary relative z-10" />
             </div>
           </div>
@@ -88,9 +97,13 @@ export default function Home() {
               Connect with Strava
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </a>
-            <a href="#demo" className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-border bg-background/50 backdrop-blur-sm px-10 py-4 text-base font-semibold hover:bg-accent transition-colors">
-              Explore Demo
-            </a>
+            <button
+              onClick={handleDemoMode}
+              className="group inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-border bg-background/50 backdrop-blur-sm px-10 py-4 text-base font-semibold hover:bg-accent transition-all hover:scale-105 active:scale-95"
+            >
+              <UserCheck className="w-5 h-5 text-primary" />
+              View Demo Athlete
+            </button>
           </div>
         </div>
       </section>

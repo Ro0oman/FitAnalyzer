@@ -1,4 +1,5 @@
 import { useAuthStore } from '@/store/authStore';
+import { generateMockActivities, MOCK_ATHLETE } from './mockData';
 
 const BASE_URL = 'https://www.strava.com/api/v3';
 
@@ -21,8 +22,14 @@ export interface StravaActivity {
 
 // Fetch activities from the last 365 days
 export async function fetchRecentActivities(): Promise<StravaActivity[]> {
-  const { accessToken } = useAuthStore.getState();
+  const { accessToken, isDemo } = useAuthStore.getState();
   
+  if (isDemo) {
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 800));
+    return generateMockActivities();
+  }
+
   if (!accessToken) {
     throw new Error('Not authenticated');
   }
@@ -44,8 +51,12 @@ export async function fetchRecentActivities(): Promise<StravaActivity[]> {
 }
 
 export async function fetchAthleteProfile() {
-  const { accessToken } = useAuthStore.getState();
+  const { accessToken, isDemo } = useAuthStore.getState();
   
+  if (isDemo) {
+    return MOCK_ATHLETE;
+  }
+
   if (!accessToken) {
     throw new Error('Not authenticated');
   }
