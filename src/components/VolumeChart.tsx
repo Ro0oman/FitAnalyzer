@@ -9,9 +9,12 @@ import {
   XAxis,
   YAxis
 } from 'recharts';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 
 export function VolumeChart() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const data = useMemo(() => {
     const weeks = ['12w ago', '11w ago', '10w ago', '9w ago', '8w ago', '7w ago', '6w ago', '5w ago', '4w ago', '3w ago', '2w ago', 'Last Week'];
     return weeks.map(week => ({
@@ -21,13 +24,15 @@ export function VolumeChart() {
     }));
   }, []);
 
+  if (!mounted) return <div className="w-full h-[350px] flex items-center justify-center text-muted-foreground italic text-sm">Loading Chart...</div>;
+
   return (
     <div className="w-full h-full min-h-[350px] p-6 bg-card rounded-2xl border border-border shadow-sm flex flex-col">
       <div className="mb-6 text-left">
         <h3 className="text-xl font-semibold">Training Volume</h3>
         <p className="text-sm text-muted-foreground">Weekly mileage and elevation gain</p>
       </div>
-      <div className="flex-1 w-full relative">
+      <div className="w-full h-[250px] relative">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--muted))" />

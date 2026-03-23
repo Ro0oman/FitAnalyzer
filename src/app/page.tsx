@@ -7,9 +7,13 @@ import { VolumeChart } from "@/components/VolumeChart";
 import { VO2MaxChart } from "@/components/VO2MaxChart";
 import { DemoStats } from "@/components/DemoStats";
 import { ActivityCards } from "@/components/ActivityCards";
+import { ActivityDetail } from "@/components/ActivityDetail";
+import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
 
 export default function Home() {
   const [authUrl, setAuthUrl] = useState<string>('');
+  const [selectedActivity, setSelectedActivity] = useState<any>(null);
 
   useEffect(() => {
      const STRAVA_CLIENT_ID = process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID;
@@ -20,6 +24,41 @@ export default function Home() {
 
   return (
     <main className="flex-1 flex flex-col min-h-screen">
+      <AnimatePresence>
+        {selectedActivity && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedActivity(null)}
+              className="absolute inset-0 bg-background/80 backdrop-blur-md"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-5xl h-[90vh] bg-card border border-border rounded-[32px] shadow-2xl overflow-hidden flex flex-col"
+            >
+              <div className="absolute top-6 right-6 z-10">
+                <button 
+                  onClick={() => setSelectedActivity(null)}
+                  className="p-2 rounded-full bg-muted/50 hover:bg-muted transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-6 md:p-12">
+                <ActivityDetail 
+                  activity={selectedActivity} 
+                  onClose={() => setSelectedActivity(null)} 
+                />
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Hero Section */}
       <section className="relative pt-24 pb-20 overflow-hidden flex flex-col items-center justify-center text-center px-6">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background" />
@@ -107,7 +146,7 @@ export default function Home() {
             {/* Right Column - Activities */}
             <div className="lg:col-span-1">
               <div className="sticky top-8 space-y-8">
-                <ActivityCards />
+                <ActivityCards onSelect={setSelectedActivity} />
                 
                 <div className="p-6 bg-primary/5 rounded-2xl border border-primary/10 space-y-4">
                   <div className="flex items-center gap-2 text-primary font-bold">

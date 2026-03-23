@@ -2,7 +2,7 @@
 
 import { Bike, Flame, Play, Timer, Trophy } from "lucide-react";
 
-export function ActivityCards() {
+export function ActivityCards({ onSelect }: { onSelect?: (activity: any) => void }) {
   const activities = [
     {
       id: 1,
@@ -11,8 +11,12 @@ export function ActivityCards() {
       date: "Today, 8:30 AM",
       distance: "32.4 km",
       time: "1h 12m",
+      avgSpeed: "27.0 km/h",
       elevation: "420m",
       relativeEffort: 68,
+      avgHeartRate: 142,
+      maxHeartRate: 165,
+      calories: 840,
       icon: <Bike className="w-5 h-5" />,
       color: "text-blue-500"
     },
@@ -23,8 +27,12 @@ export function ActivityCards() {
       date: "Yesterday",
       distance: "8.2 km",
       time: "42m 15s",
+      avgPace: "5:09 /km",
       elevation: "45m",
       relativeEffort: 112,
+      avgHeartRate: 158,
+      maxHeartRate: 182,
+      calories: 620,
       icon: <Play className="w-5 h-5 rotate-90" />,
       color: "text-orange-500"
     },
@@ -35,8 +43,12 @@ export function ActivityCards() {
       date: "Sunday",
       distance: "105.0 km",
       time: "3h 45m",
+      avgSpeed: "28.0 km/h",
       elevation: "1,250m",
       relativeEffort: 245,
+      avgHeartRate: 138,
+      maxHeartRate: 172,
+      calories: 2850,
       icon: <Trophy className="w-5 h-5" />,
       color: "text-purple-500"
     }
@@ -49,7 +61,11 @@ export function ActivityCards() {
         <button className="text-xs text-primary font-medium hover:underline">View All</button>
       </div>
       {activities.map((activity) => (
-        <div key={activity.id} className="group p-4 bg-card rounded-xl border border-border shadow-sm hover:border-primary/20 transition-all cursor-default">
+        <div 
+          key={activity.id} 
+          onClick={() => onSelect?.(activity)}
+          className="group p-4 bg-card rounded-xl border border-border shadow-sm hover:border-primary/40 hover:shadow-md hover:scale-[1.02] transition-all cursor-pointer active:scale-[0.98]"
+        >
           <div className="flex gap-4">
             <div className={`p-3 rounded-xl bg-muted group-hover:bg-primary/5 transition-colors ${activity.color}`}>
               {activity.icon}

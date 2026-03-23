@@ -9,9 +9,12 @@ import {
   XAxis,
   YAxis
 } from 'recharts';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 
 export function DemoCharts() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const data = useMemo(() => {
     const arr = [];
     let fitness = 40;
@@ -21,7 +24,6 @@ export function DemoCharts() {
       const d = new Date();
       d.setDate(d.getDate() - i);
       
-      // Simulate some training stimulus
       const stress = Math.random() > 0.6 ? 50 + Math.random() * 100 : 0;
       
       fitness = fitness + (stress - fitness) * (1 - Math.exp(-1/42));
@@ -38,13 +40,15 @@ export function DemoCharts() {
     return arr;
   }, []);
 
+  if (!mounted) return <div className="w-full h-[400px] flex items-center justify-center text-muted-foreground italic text-sm">Loading Chart...</div>;
+
   return (
     <div className="w-full h-full min-h-[400px] p-6 bg-card rounded-2xl border border-border shadow-sm flex flex-col">
       <div className="mb-6 text-left">
         <h3 className="text-xl font-semibold">Performance Modeling</h3>
         <p className="text-sm text-muted-foreground">Preview of your Fitness (CTL), Fatigue (ATL), and Form (TSB)</p>
       </div>
-      <div className="flex-1 w-full relative">
+      <div className="w-full h-[320px] relative">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
             <defs>
