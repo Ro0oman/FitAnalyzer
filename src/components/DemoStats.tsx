@@ -1,6 +1,7 @@
 'use client';
 
 import { Activity, Heart, Navigation, Timer } from "lucide-react";
+import { InfoTooltip } from "./InfoTooltip";
 
 export function DemoStats() {
   const stats = [
@@ -9,28 +10,32 @@ export function DemoStats() {
       value: "42.5 km",
       change: "+12%",
       icon: <Navigation className="w-5 h-5 text-blue-500" />,
-      description: "Steady progress this week"
+      description: "Steady progress this week",
+      tooltip: "The total distance covered in the last 7 rolling days."
     },
     {
       label: "Training Stress",
       value: "450",
       change: "Optimal",
       icon: <Activity className="w-5 h-5 text-red-500" />,
-      description: "Productive training phase"
+      description: "Productive training phase",
+      tooltip: "A score representing the intensity and duration of your training efforts."
     },
     {
       label: "Avg Heart Rate",
       value: "145 bpm",
       change: "-2 bpm",
       icon: <Heart className="w-5 h-5 text-pink-500" />,
-      description: "Improved efficiency"
+      description: "Improved efficiency",
+      tooltip: "Your average heart rate across all activities this week."
     },
     {
       label: "Time Spent",
       value: "5h 24m",
       change: "+45m",
       icon: <Timer className="w-5 h-5 text-amber-500" />,
-      description: "Higher volume than last week"
+      description: "Higher volume than last week",
+      tooltip: "The total moving time spent training this week."
     }
   ];
 
@@ -51,7 +56,10 @@ export function DemoStats() {
             </span>
           </div>
           <div className="space-y-1">
-            <p className="text-sm text-muted-foreground font-medium">{stat.label}</p>
+            <div className="flex items-center">
+              <p className="text-sm text-muted-foreground font-medium">{stat.label}</p>
+              <InfoTooltip title={stat.label} content={stat.tooltip} />
+            </div>
             <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
             <p className="text-xs text-muted-foreground mt-2">{stat.description}</p>
           </div>

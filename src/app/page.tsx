@@ -1,6 +1,16 @@
 'use client';
 
-import { Activity, ArrowRight, TrendingUp, Zap, BarChart3, LineChart, LayoutDashboard } from "lucide-react";
+import { 
+  Activity, 
+  ArrowRight, 
+  TrendingUp, 
+  Zap, 
+  BarChart3, 
+  LineChart, 
+  LayoutDashboard,
+  X,
+  UserCheck
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { DemoCharts } from "@/components/DemoCharts";
 import { VolumeChart } from "@/components/VolumeChart";
@@ -9,9 +19,9 @@ import { DemoStats } from "@/components/DemoStats";
 import { ActivityCards } from "@/components/ActivityCards";
 import { ActivityDetail } from "@/components/ActivityDetail";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, UserCheck } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
+import { DetailedAnalysis } from "@/components/DetailedAnalysis";
 
 export default function Home() {
   const [authUrl, setAuthUrl] = useState<string>('');
@@ -172,6 +182,15 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* In-depth Analysis Section Preview */}
+          <div className="mt-12">
+            <DetailedAnalysis 
+              metrics={[{ fitness: 48.5, fatigue: 42.2, form: 6.3 }]} 
+              consistency={92} 
+              balance={{ easyPercent: 82, hardPercent: 18 }} 
+            />
           </div>
         </div>
       </section>

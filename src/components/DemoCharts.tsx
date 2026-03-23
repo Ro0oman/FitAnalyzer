@@ -10,6 +10,7 @@ import {
   YAxis
 } from 'recharts';
 import { useMemo, useState, useEffect } from 'react';
+import { InfoTooltip } from './InfoTooltip';
 
 export function DemoCharts() {
   const [mounted, setMounted] = useState(false);
@@ -45,7 +46,13 @@ export function DemoCharts() {
   return (
     <div className="w-full h-full min-h-[400px] p-6 bg-card rounded-2xl border border-border shadow-sm flex flex-col">
       <div className="mb-6 text-left">
-        <h3 className="text-xl font-semibold">Performance Modeling</h3>
+        <div className="flex items-center">
+          <h3 className="text-xl font-semibold">Performance Modeling</h3>
+          <InfoTooltip 
+            title="Fitness Modeling" 
+            content="Chronic Training Load (CTL) follows fitness, Acute Training Load (ATL) follows fatigue, and Training Stress Balance (TSB) shows your freshness/readiness to race." 
+          />
+        </div>
         <p className="text-sm text-muted-foreground">Preview of your Fitness (CTL), Fatigue (ATL), and Form (TSB)</p>
       </div>
       <div className="w-full h-[320px] relative">

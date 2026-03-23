@@ -10,6 +10,7 @@ import {
   YAxis
 } from 'recharts';
 import { useMemo, useState, useEffect } from 'react';
+import { InfoTooltip } from './InfoTooltip';
 
 export function VO2MaxChart() {
   const [mounted, setMounted] = useState(false);
@@ -35,7 +36,13 @@ export function VO2MaxChart() {
   return (
     <div className="w-full h-full min-h-[350px] p-6 bg-card rounded-2xl border border-border shadow-sm flex flex-col">
       <div className="mb-6 text-left">
-        <h3 className="text-xl font-semibold">VO2Max Estimation</h3>
+        <div className="flex items-center">
+          <h3 className="text-xl font-semibold">VO2Max Estimation</h3>
+          <InfoTooltip 
+            title="VO2Max Trends" 
+            content="Estimated maximum oxygen consumption rate based on your activities with heart rate and pace/power data." 
+          />
+        </div>
         <p className="text-sm text-muted-foreground">Calculated cardiovascular fitness trend</p>
       </div>
       <div className="w-full h-[250px] relative">

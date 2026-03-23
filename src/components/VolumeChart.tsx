@@ -10,6 +10,7 @@ import {
   YAxis
 } from 'recharts';
 import { useMemo, useState, useEffect } from 'react';
+import { InfoTooltip } from './InfoTooltip';
 
 export function VolumeChart() {
   const [mounted, setMounted] = useState(false);
@@ -29,7 +30,13 @@ export function VolumeChart() {
   return (
     <div className="w-full h-full min-h-[350px] p-6 bg-card rounded-2xl border border-border shadow-sm flex flex-col">
       <div className="mb-6 text-left">
-        <h3 className="text-xl font-semibold">Training Volume</h3>
+        <div className="flex items-center">
+          <h3 className="text-xl font-semibold">Training Volume</h3>
+          <InfoTooltip 
+            title="Volume Analysis" 
+            content="Distance and elevation gain aggregated by week to track your workload consistency over time." 
+          />
+        </div>
         <p className="text-sm text-muted-foreground">Weekly mileage and elevation gain</p>
       </div>
       <div className="w-full h-[250px] relative">

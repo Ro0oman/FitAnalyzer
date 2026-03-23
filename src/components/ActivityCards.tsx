@@ -1,6 +1,7 @@
 'use client';
 
 import { Bike, Flame, Play, Timer, Trophy } from "lucide-react";
+import { InfoTooltip } from "./InfoTooltip";
 
 export function ActivityCards({ onSelect }: { onSelect?: (activity: any) => void }) {
   const activities = [
@@ -81,7 +82,10 @@ export function ActivityCards({ onSelect }: { onSelect?: (activity: any) => void
                     <Flame className="w-3 h-3" />
                     {activity.relativeEffort}
                   </div>
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Relative Effort</p>
+                  <div className="flex items-center justify-end">
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Relative Effort</p>
+                    <InfoTooltip title="Relative Effort" content="A score based on heart rate that tells you how hard you worked compared to your previous activities." />
+                  </div>
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-2 mt-4">

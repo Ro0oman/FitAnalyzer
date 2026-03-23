@@ -15,6 +15,8 @@ import { TrainingCalendar } from '@/components/TrainingCalendar';
 import { ActivityDetailsModal } from '@/components/ActivityDetailsModal';
 import { TrainingStatsTable } from '@/components/TrainingStatsTable';
 import { WeeklyComparisonChart } from '@/components/WeeklyComparisonChart';
+import { InfoTooltip } from '@/components/InfoTooltip';
+import { DetailedAnalysis } from '@/components/DetailedAnalysis';
 
 export default function Dashboard() {
   const { isAuthenticated, athlete } = useAuthStore();
@@ -131,7 +133,10 @@ export default function Dashboard() {
         {/* Phase Card */}
         <div className="rounded-xl border border-border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <h3 className="tracking-tight text-sm font-medium">Training Phase</h3>
+            <div className="flex items-center">
+              <h3 className="tracking-tight text-sm font-medium">Training Phase</h3>
+              <InfoTooltip title="Training Phase" content="Automatically detected based on your ATL/CTL balance. Tells you if you are building, peaking, or tapering." />
+            </div>
             <Target className="h-4 w-4 text-primary" />
           </div>
           <div className="mt-4">
@@ -143,7 +148,10 @@ export default function Dashboard() {
         {/* Fitness Card */}
         <div className="rounded-xl border border-border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <h3 className="tracking-tight text-sm font-medium">Fitness (CTL)</h3>
+            <div className="flex items-center">
+              <h3 className="tracking-tight text-sm font-medium">Fitness (CTL)</h3>
+              <InfoTooltip title="Fitness (CTL)" content="Chronic Training Load. Represents your long-term (42-day) average training load. Higher means more cardiovascular capacity." />
+            </div>
             <TrendingUp className="h-4 w-4 text-primary" />
           </div>
           <div className="mt-4">
@@ -155,7 +163,10 @@ export default function Dashboard() {
         {/* Balance Card */}
         <div className="rounded-xl border border-border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <h3 className="tracking-tight text-sm font-medium">Training Balance</h3>
+            <div className="flex items-center">
+              <h3 className="tracking-tight text-sm font-medium">Training Balance</h3>
+              <InfoTooltip title="Training Balance" content="Distribution between Easy (low intensity) and Hard (high intensity) activities. Aim for 80/20 for optimal progress." />
+            </div>
             <Activity className="h-4 w-4 text-primary" />
           </div>
           <div className="mt-4 flex items-center justify-between gap-4">
@@ -170,7 +181,10 @@ export default function Dashboard() {
         {/* VO2Max Card */}
         <div className="rounded-xl border border-border bg-card text-card-foreground shadow-sm p-6 flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <h3 className="tracking-tight text-sm font-medium">Est. VO2Max</h3>
+            <div className="flex items-center">
+              <h3 className="tracking-tight text-sm font-medium">Est. VO2Max</h3>
+              <InfoTooltip title="VO2Max" content="Estimated maximum oxygen volume you can utilize. Higher means more aerobic power." />
+            </div>
             <HeartPulse className="h-4 w-4 text-primary" />
           </div>
           <div className="mt-4">
@@ -181,12 +195,24 @@ export default function Dashboard() {
 
       </div>
 
+      {/* NEW: Detailed Analysis Section */}
+      <DetailedAnalysis 
+        metrics={metrics} 
+        consistency={consistency} 
+        balance={balance} 
+      />
+
       {/* Advanced Performance Modeling */}
       <div className="rounded-xl border border-border bg-card p-4 md:p-6 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
-            <div>
-                 <h3 className="font-semibold leading-none tracking-tight">Pro Performance Modeling</h3>
-                 <p className="text-sm text-muted-foreground mt-1 text-balance">Track ATL, CTL, and TSB values with interactive brush.</p>
+            <div className="flex items-center gap-2">
+                 <div>
+                      <div className="flex items-center">
+                        <h3 className="font-semibold leading-none tracking-tight">Pro Performance Modeling</h3>
+                        <InfoTooltip title="CTL/ATL/TSB Modeling" content="The definitive way to track fatigue and fitness. Keep TSB (Form) positive for races, and negative for building phases." />
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-1 text-balance">Track ATL, CTL, and TSB values with interactive brush.</p>
+                 </div>
             </div>
             {/* Toggles */}
             <div className="flex items-center space-x-2 bg-secondary p-1 rounded-lg">
